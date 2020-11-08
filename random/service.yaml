@@ -1,0 +1,34 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: random
+  labels:
+    # Don't expose this function externally
+    serving.knative.dev/visibility: cluster-local
+spec:
+  template:
+    spec:
+      containers:
+        # Use buildpacks to build the function in ./random/
+      - image: buildpack:///random
+
+---
+apiVersion: eventing.knative.dev/v1
+kind: Trigger
+metadata:
+  name: random
+spec:
+  # Listen to events on the default Broker
+  broker: default
+
+  # Trigger on cloud events with type ping.
+  filter:
+    attributes:
+      type: dev.knative.sources.ping
+
+  # Send cloud events matching our filter to this service.
+  subscriber:
+    ref:
+      apiVersion: serving.knative.dev/v1
+      kind: Service
+      name: random

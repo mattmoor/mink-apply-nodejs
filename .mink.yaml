@@ -1,0 +1,11 @@
+recursive: true
+
+filename:
+- config
+- divide
+- swap
+- random
+- add
+- exponent
+
+builder: gcr.io/buildpacks/builder
