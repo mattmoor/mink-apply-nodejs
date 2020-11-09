@@ -14,11 +14,12 @@ const event = (cloudEvent, res) => {
       type: 'dev.mink.apply.samples.swap',
       source: 'https://github.com/mattmoor/mink-apply-sample/swap',
       time: new Date(),
+      dataContentType: 'application/json',
       data: handle(cloudEvent.data)
   })
 
   res.set(HTTPEmitter.headers(newCloudEvent))
-  res.status(200).send(JSON.stringify(newCloudEvent.format(), null, 2))
+  res.status(200).send(JSON.stringify(newCloudEvent.data, null, 2))
 }
 
 const http = function (req, res) {
