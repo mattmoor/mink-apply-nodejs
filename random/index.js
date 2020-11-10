@@ -9,15 +9,13 @@ const handle = (data) => {
 }
 
 function event(cloudEvent) {
-  const newCloudEvent = new CloudEvent({
+  return new CloudEvent({
       type: 'dev.mink.apply.samples.random',
       source: 'https://github.com/mattmoor/mink-apply-sample/random',
       time: new Date(),
       dataContentType: 'application/json',
       data: handle(cloudEvent.data)
   })
-
-  return newCloudEvent
 }
 
 module.exports = { event }
