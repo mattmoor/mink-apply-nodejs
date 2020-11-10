@@ -1,6 +1,5 @@
 const { CloudEvent } = require('cloudevents')
 
-// handle shared the logic for producing the Response event from the Request.
 const handle = (data) => {
     return {
 	a: data.b,
