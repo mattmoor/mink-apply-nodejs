@@ -1,4 +1,4 @@
-const { CloudEvent } = require('cloudevents-sdk')
+const { CloudEvent } = require('cloudevents')
 
 // handle shared the logic for producing the Response event from the Request.
 const handle = (data) => {
@@ -13,7 +13,6 @@ function event(cloudEvent) {
       type: 'dev.mink.apply.samples.random',
       source: 'https://github.com/mattmoor/mink-apply-sample/random',
       time: new Date(),
-      dataContentType: 'application/json',
       data: handle(cloudEvent.data)
   })
 }

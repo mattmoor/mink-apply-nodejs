@@ -1,14 +1,15 @@
-const { HTTPEmitter, HTTPReceiver } = require('cloudevents-sdk')
-const receiver = new HTTPReceiver()
+const { Emitter, HTTP } = require('cloudevents')
 
 const ToHTTP = function(fn) {
   return function (req, res) {
-    try {
-      const ce = receiver.accept(req.headers, req.body)
-      console.log(`Accepted event: ${JSON.stringify(ce.format(), null, 2)}`)
+      try {
+      const ce = HTTP.toEvent({headers: req.headers, body: req.body})
+      console.log(`Accepted event: ${JSON.stringify(ce, null, 2)}`)
       rce = fn(ce)
-      res.set(HTTPEmitter.headers(rce))
-      res.status(200).send(JSON.stringify(rce.data, null, 2))
+
+      const message = HTTP.binary(rce);
+      res.set(message.headers)
+      res.status(200).send(message.body)
     } catch (err) {
       console.error(err)
       res.status(415)
